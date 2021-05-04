@@ -6,10 +6,17 @@
 </head>
 <body>
     <main>
-        <h1><%= selected.username %></h1>
-        <% selected.photos.forEach((element,index)=> { %>
-            <img src="<%= element %>" alt="photo">
-        <% }) %>
+        <h1 class="title"><%= selected.username %></h1>
+        <div class="photo-container">
+            <div class="all-user-photos">
+                <% selected.photos.forEach((element,index)=> { %>
+                    <img class="user-photo-thumb" id="photo<%= index %>" src="<%= element %>" alt="photo">
+                <% }) %>
+            </div>
+            <div class="featured-user-photo">
+                <img class="user-photo-feat" id="photo0" src="<%= selected.photos[0] %>" alt="photo">
+            </div>
+        </div>
     </main>
     <%- include('../partials/nav') %>
 </body>

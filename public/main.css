@@ -13,7 +13,7 @@
 }
 .title {
     text-align: center;
-    margin-top: 24px;
+    margin: 24px 0;
 }
 .user-ul {
     list-style: none;
@@ -21,7 +21,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 3%;
+    /* margin-top: 3%; */
 }
 .user-li {
     display: flex;
@@ -61,8 +61,24 @@
     justify-content: space-evenly;
     list-style: none;
     width: 40%;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 .nav-link:focus {
     color: red;
+}
+.photo-container {
+    display: flex;
+    justify-content: space-around;
+}
+.user-photo-thumb {
+    height: 200px;
+    width: auto;
+    margin: 5px;
+    cursor: pointer;
+}
+.all-user-photos {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 40%;
 }
