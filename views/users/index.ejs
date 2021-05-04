@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <%- include('../partials/head') %>
-    <title>All Users</title>
+    <title>Photographers</title>
 </head>
 <body class="user-index-body">
     <main>
-        <h1 class="title">View Our Photographers!</h1>
+        <h1 class="title">All Photographers</h1>
         <ul class="user-ul">
             <% users.forEach(element=>{ %>
                 <li class="user-li"><a class="user-link" href="/user/<%= element._id %>"><%= element.username %></a>

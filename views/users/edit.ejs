@@ -10,16 +10,6 @@
         <form class="form" action="/user/<%= selected._id %>?_method=PUT" method=POST>
             Username: <input class="form-input" type="text" name="username" value="<%= selected.username %>">
             Password: <input class="form-input" type="text" name="password" value="<%= selected.password %>">
-            Edit Current Photos:
-            <div class="edit-photo-div">
-                <% selected.photos.forEach((element,index)=> { %>
-                    <div class="user-photo-edit">
-                        <input type="text" name="photo<%= index %>" value="<%= element.url %>">
-                        <img class="user-photo-thumb" src="<%= element.url %>" alt="photo">
-                    </div>
-                <% }) %>
-            </div>
-            Add New Photos from URL: <input class="form-input" type="text" name="newImages">
             <input class="submit-button" type="submit" value="Submit Changes">
         </form>
     </main>

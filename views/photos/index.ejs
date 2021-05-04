@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Photos</title>
+</head>
+<body>
+    <main>
+        <h1 class="title">All Photos</h1>
+        <% users.forEach(user=>{ %>
+            <% user.photos.forEach(photo=>{ %>
+                <a href="/user/<%= user._id %>"><img src="<%= photo.url %>" alt="photo"></a>
+                <p><%= photo.about %></p>
+            <% })%>
+        <% }) %>
+        <%- include('../partials/nav') %>
+    </main>
+</body>
+</html>
