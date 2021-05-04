@@ -4,16 +4,16 @@
     <%- include('./partials/head') %>
     <title>All Users</title>
 </head>
-<body>
+<body class="user-index-body">
     <main>
-        <h1 class="title">All Users</h1>
+        <h1 class="title">View Our Users!</h1>
         <ul class="user-ul">
             <% users.forEach(element=>{ %>
                 <li class="user-li"><a class="user-link" href="/user/<%= element._id %>"><%= element.username %></a>
                 <div class="user-actions">
                     <a class="action-button" href="/user/<%= element._id %>/edit"><i class="fas fa-pencil-alt"></i></a>
                     <form action="/user/<%= element._id %>?_method=DELETE" method="POST">
-                        <input class="action-button" type="submit" value="X">
+                        <input class="action-button" type="submit" value="Delete">
                     </form>
                 </div>
                 </li>
