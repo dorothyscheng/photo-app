@@ -6,12 +6,12 @@
 </head>
 <body>
     <main>
-        <h1>Create a New Account</h1>
-        <form action="/user" method="POST">
-            Name: <input type="text" name="username">
-            Password <input type="text" name="password">
-            Photo URLs: <input type="text" name="photos">
-            <input type="submit" value="Create Account">
+        <h1 class="title">Create a New Account</h1>
+        <form class="form" action="/user" method="POST">
+            Name: <input class="form-input" type="text" name="username">
+            Password <input class="form-input" type="text" name="password">
+            Photo URLs: <input class="form-input" type="text" name="photos">
+            <input class="submit-button" type="submit" value="Create Account">
         </form>
     </main>
     <%- include('../partials/nav') %>
