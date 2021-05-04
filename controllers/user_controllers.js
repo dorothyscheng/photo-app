@@ -1,6 +1,5 @@
 const express=require('express');
 const router=express.Router();
-const mongoose=require('mongoose');
 const methodOverride=require('method-override');
 const User=require('../models/User');
 router.use(express.urlencoded({extended: false}));
@@ -24,7 +23,6 @@ router.get('/new',(req,res)=>{
 });
 // Post
 router.post('/', (req,res)=>{
-    req.body.photos=req.body.photos.split(', ');
     User.create(req.body,(err,newUser)=>{
         if (err) {
             res.send(err);

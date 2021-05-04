@@ -12,5 +12,4 @@ mongoose.connection.on('disconnected',()=>console.log('Mongoose disconnected'));
 
 module.exports={
     User: require('./User'),
-    Photo: require('./Photo'),
 }

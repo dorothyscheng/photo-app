@@ -14,8 +14,8 @@
             <div class="edit-photo-div">
                 <% selected.photos.forEach((element,index)=> { %>
                     <div class="user-photo-edit">
-                        <input type="text" name="photo<%= index %>" value="<%= element %>">
-                        <img class="user-photo-thumb" src="<%= element %>" alt="photo">
+                        <input type="text" name="photo<%= index %>" value="<%= element.url %>">
+                        <img class="user-photo-thumb" src="<%= element.url %>" alt="photo">
                     </div>
                 <% }) %>
             </div>
