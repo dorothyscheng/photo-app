@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <h1><%= selected.username %></h1>
+        <% selected.photos.forEach((element,index)=> { %>
+            <img src="<%= element %>" alt="photo">
+        <% }) %>
+    </main>
+    <%- include('./partials/nav') %>
+</body>
+</html>
