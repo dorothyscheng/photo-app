@@ -12,7 +12,7 @@ router.get('/', (req,res)=>{
         if (err) {
             res.send(err);
         } else {
-            res.render('index',{
+            res.render('users/index',{
                 users: allUsers,
             });
         };
@@ -20,7 +20,7 @@ router.get('/', (req,res)=>{
 });
 // New
 router.get('/new',(req,res)=>{
-    res.render('new');
+    res.render('users/new');
 });
 // Post
 router.post('/', (req,res)=>{
@@ -49,7 +49,7 @@ router.get('/:id/edit',(req,res)=>{
         if (err) {
             res.send(err);
         } else {
-            res.render('edit',{
+            res.render('users/edit',{
                 selected:selected,
             });
         };
@@ -83,7 +83,7 @@ router.get('/:id', (req,res)=>{
         if (err) {
             res.send(err);
         } else {
-            res.render('show',{
+            res.render('users/show',{
                 selected: selected,
             });
         };
