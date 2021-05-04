@@ -82,3 +82,31 @@
     flex-wrap: wrap;
     width: 40%;
 }
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 40%;
+    margin: 0 auto;
+}
+.form-input {
+    margin-bottom: 10px;
+}
+.edit-photo-div {
+    display: flex;
+}
+.user-photo-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.submit-button {
+    background: none;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+.submit-button:focus {
+    color: red;
+    border: 1px solid red;
+}

@@ -6,18 +6,21 @@
 </head>
 <body>
     <main>
-        <h1>Edit Your Profile</h1>
-        <form action="/user/<%= selected._id %>?_method=PUT" method=POST>
-            Name: <input type="text" name="username" value="<%= selected.username %>">
-            Password: <input type="text" name="password" value="<%= selected.password %>">
-            Current Photos: <% selected.photos.forEach((element,index)=> { %>
-                <div class="user-photo-div">
-                    <input type="text" name="photo<%= index %>" value="<%= element %>">
-                    <img src="<%= element %>" alt="photo">
-                </div>
-            <% }) %>
-            Add New Photos: <input type="text" name="newImages">
-            <input type="submit" value="Submit Changes">
+        <h1 class="title">Edit Your Profile</h1>
+        <form class="edit-form" action="/user/<%= selected._id %>?_method=PUT" method=POST>
+            Username: <input class="form-input" type="text" name="username" value="<%= selected.username %>">
+            Password: <input class="form-input" type="text" name="password" value="<%= selected.password %>">
+            Edit Current Photos:
+            <div class="edit-photo-div">
+                <% selected.photos.forEach((element,index)=> { %>
+                    <div class="user-photo-edit">
+                        <input type="text" name="photo<%= index %>" value="<%= element %>">
+                        <img class="user-photo-thumb" src="<%= element %>" alt="photo">
+                    </div>
+                <% }) %>
+            </div>
+            Add New Photos from URL: <input class="form-input" type="text" name="newImages">
+            <input class="submit-button" type="submit" value="Submit Changes">
         </form>
     </main>
     <%- include('../partials/nav') %>
