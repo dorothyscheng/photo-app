@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const methodOverride=require('method-override');
+const Photo = require('../models/Photo');
 const User=require('../models/User');
 router.use(express.urlencoded({extended: false}));
 router.use(methodOverride('_method'));
@@ -32,14 +33,10 @@ router.post('/', (req,res)=>{
     });
 });
 // Destroy
-router.delete('/:id',(req,res)=>{
-    User.findByIdAndDelete({_id:req.params.id},(err,selectedUser)=>{
-        if (err) {
-            res.send(err);
-        } else {
-            res.redirect('/user');
-        };
-    });
+router.delete('/:id', async (req,res)=>{
+    await User.findByIdAndDelete({_id:req.params.id});
+    await Photo.deleteMany({user: req.params.id});
+    res.redirect('/user');
 });
 // Edit
 router.get('/:id/edit',(req,res)=>{
@@ -73,7 +70,7 @@ router.put('/:id', async (req,res)=>{
             // photos: newPhotoArr,
             }
     });
-    res.redirect(`/user/${req.params.id}`);
+    res.redirect(`/user`);
 });
 // Show
 router.get('/:id', async (req,res)=>{

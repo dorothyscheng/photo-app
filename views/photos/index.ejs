@@ -7,10 +7,14 @@
 <body>
     <main>
         <h1 class="title">All Photos</h1>
-        <% photos.forEach(photo=>{ %>
-            <a href="/user/<%= photo.user %>"><img src="<%= photo.url %>" alt="<%= photo.about %>"></a>
-            <p><%= photo.about %></p>
-        <% })%>
+        <div class="photo-index-all">
+            <% photos.forEach(photo=>{ %>
+                <div class="photo-index-single">
+                    <a href="/user/<%= photo.user %>"><img class="user-photo-thumb" src="<%= photo.url %>" alt="<%= photo.about %>"></a>
+                    <p><%= photo.about %></p>
+                </div>
+                <% })%>
+        </div>
         <%- include('../partials/nav') %>
     </main>
 </body>

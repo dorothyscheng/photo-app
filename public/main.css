@@ -110,3 +110,13 @@
     color: red;
     border: 1px solid red;
 }
+.photo-index-all {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.photo-index-single {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
