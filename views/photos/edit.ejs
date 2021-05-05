@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Edit Photo</title>
+</head>
+<body>
+    <main>
+        <%- include('../partials/nav') %>
+        <h1 class="title">Edit Photo</h1>
+        <form action="/photos/<%= selected._id %>?_method=PUT" method="POST" class="form">
+            URL: <input class="form-input" type="text" name="url" value="<%= selected.url %>">
+            <img src="<%= selected.url %>" alt="<%= selected.about %>">
+            About: <input class="form-input" type="text" name="about" value="<%= selected.about %>">
+            <input class="submit-button" type="submit" value="Submit">
+        </form>
+    </main>
+</body>
+</html>

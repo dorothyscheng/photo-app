@@ -13,7 +13,7 @@
             <p class="about-photo"><%= selected.about %></p>
             <div class="photo-actions">
                 <a href="/user/<%= selected.user._id %>">View <%= selected.user.username %>'s Profile</a>
-                <a href="photos/edit">Edit Photo</a>
+                <a href="/photos/<%= selected._id %>/edit">Edit Photo</a>
                 <form action="/photos/<%= selected._id %>?_method=DELETE" method="POST">
                     <input class="action-button" type="submit" value="Delete">
                 </form>

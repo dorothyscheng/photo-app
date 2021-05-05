@@ -37,11 +37,27 @@ router.post('/',async (req,res)=>{
         res.redirect(`/user/${userId}`);
     };
 });
+// Edit
+router.get('/:id/edit',async (req,res)=>{
+    const selected= await Photo.findById({_id:req.params.id});
+    res.render('photos/edit',{
+        selected: selected,
+    });
+});
+// Update
+router.put('/:id',async (req,res)=>{
+    await Photo.findByIdAndUpdate({_id: req.params.id},{
+        $set: {
+            url: req.body.url,
+            about: req.body.about,
+        }
+    });
+    res.redirect(`/photos/${req.params.id}`);
+});
 // Destroy
 router.delete('/:id',async (req,res)=>{
-    const deletedPhoto= await Photo.findByIdAndDelete({_id: req.params.id});
+    await Photo.findByIdAndDelete({_id: req.params.id});
     const user= await User.findOne({'photos':req.params.id});
-    // res.send(user);
     await user.photos.remove(req.params.id);
     await user.save();
     res.redirect('/photos');
