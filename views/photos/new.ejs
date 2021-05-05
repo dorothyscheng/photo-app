@@ -6,6 +6,7 @@
 </head>
 <body>
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title">Add Photo</h1>
         <form class="form" action="/photos" method="POST">
             Username: <input class="form-input" type="text" name="username">
@@ -13,7 +14,6 @@
             About: <input class="form-input" type="text" name="about">
             <input class="submit-button" type="submit" value="Submit">
         </form>
-        <%- include('../partials/nav') %>
     </main>
 </body>
 </html>

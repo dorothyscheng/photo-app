@@ -6,19 +6,13 @@
 </head>
 <body>
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title"><%= selected.username %></h1>
-        <div class="photo-container">
-            <div class="all-user-photos">
-                <% selected.photos.forEach((element,index)=> { %>
-                    <img class="user-photo-thumb" id="photo<%= index %>" src="<%= element.url %>" alt="element.about">
-                <% }) %>
-            </div>
-            <div class="featured-user-photo">
-                <img class="user-photo-feat" id="photo0" src="<%= selected.photos[0].url %>" alt="<%= selected.photos[0].about %>">
-                <p class="about-photo"><%= selected.photos[0].about %></p>
-            </div>
+        <div class="all-user-photos">
+            <% selected.photos.forEach((element,index)=> { %>
+                <a href="/photos/<%= element._id %>"><img class="user-photo-thumb" src="<%= element.url %>" alt="element.about"></a>
+            <% }) %>
         </div>
     </main>
-    <%- include('../partials/nav') %>
 </body>
 </html>

@@ -6,6 +6,7 @@
 </head>
 <body>
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title">Edit Your Profile</h1>
         <form class="form" action="/user/<%= selected._id %>?_method=PUT" method=POST>
             Username: <input class="form-input" type="text" name="username" value="<%= selected.username %>">
@@ -13,6 +14,5 @@
             <input class="submit-button" type="submit" value="Submit Changes">
         </form>
     </main>
-    <%- include('../partials/nav') %>
 </body>
 </html>

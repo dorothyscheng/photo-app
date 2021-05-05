@@ -6,13 +6,13 @@
 </head>
 <body>
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title"><%= selected.user.username %>'s Photo</h1>
         <div class="featured-user-photo">
             <img src="<%= selected.url %>" alt="<%= selected.about %>">
             <p class="about-photo"><%= selected.about %></p>
             <a href="/user/<%= selected.user._id %>">View <%= selected.user.username %>'s Profile</a>
         </div>
-        <%- include('../partials/nav') %>
     </main>
 </body>
 </html>

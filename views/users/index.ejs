@@ -6,6 +6,7 @@
 </head>
 <body class="user-index-body">
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title">All Photographers</h1>
         <ul class="user-ul">
             <% users.forEach(element=>{ %>
@@ -20,6 +21,5 @@
             <% }) %>
         </ul>
     </main>
-    <%- include('../partials/nav') %>
 </body>
 </html>

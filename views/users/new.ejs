@@ -6,6 +6,7 @@
 </head>
 <body>
     <main>
+        <%- include('../partials/nav') %>
         <h1 class="title">Create a New Account</h1>
         <form class="form" action="/user" method="POST">
             Name: <input class="form-input" type="text" name="username">
@@ -14,6 +15,5 @@
             <input class="submit-button" type="submit" value="Create Account">
         </form>
     </main>
-    <%- include('../partials/nav') %>
 </body>
 </html>
