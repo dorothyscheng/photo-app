@@ -5,6 +5,9 @@ const Photo = require('../models/Photo');
 const User=require('../models/User');
 router.use(express.urlencoded({extended: false}));
 router.use(methodOverride('_method'));
+// LOGIN
+const bcrypt=require('bcrypt');
+const saltRounds=10;
 // ROUTES
 // Index
 router.get('/', (req,res)=>{
@@ -23,14 +26,13 @@ router.get('/new',(req,res)=>{
     res.render('users/new');
 });
 // Post
-router.post('/', (req,res)=>{
-    User.create(req.body,(err,newUser)=>{
-        if (err) {
-            res.send(err);
-        } else {
-            res.redirect('/user');
-        };
+router.post('/', async (req,res)=>{
+    const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
+    await User.create({
+        username:req.body.username,
+        password: hashedPw,
     });
+    res.redirect('/user');
 });
 // Destroy
 router.delete('/:id', async (req,res)=>{
