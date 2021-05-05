@@ -117,3 +117,9 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+.photo-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+}

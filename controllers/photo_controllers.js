@@ -2,6 +2,8 @@ const express=require('express');
 const Photo = require('../models/Photo');
 const router=express.Router();
 const User=require('../models/User');
+const methodOverride=require('method-override');
+router.use(methodOverride('_method'));
 router.use(express.urlencoded({extended:false}));
 // ROUTES
 // Index
@@ -35,6 +37,15 @@ router.post('/',async (req,res)=>{
         res.redirect(`/user/${userId}`);
     };
 });
+// Destroy
+router.delete('/:id',async (req,res)=>{
+    const deletedPhoto= await Photo.findByIdAndDelete({_id: req.params.id});
+    const user= await User.findOne({'photos':req.params.id});
+    // res.send(user);
+    await user.photos.remove(req.params.id);
+    await user.save();
+    res.redirect('/photos');
+})
 // Show
 router.get('/:id',async (req,res)=>{
     const selected= await Photo.findById(req.params.id)

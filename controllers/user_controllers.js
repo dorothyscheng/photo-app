@@ -53,21 +53,10 @@ router.get('/:id/edit',(req,res)=>{
 // Update
 router.put('/:id', async (req,res)=>{
     const selected = await User.findById({_id: req.params.id});
-    // let newPhotoArr=[];
-    // const keys=Object.keys(req.body);
-    // for (let i=0; i<keys.length; i++) {
-    //     if (keys[i].includes('photo')) {
-    //         newPhotoArr.push((Object.values(req.body)[i]));
-    //     };
-    // };
-    // if (req.body.newImages) {
-    //     newPhotoArr=newPhotoArr.concat(req.body.newImages.split(', '));
-    // };
     await User.findByIdAndUpdate({_id: req.params.id},
         {$set: {
             username: req.body.username,
             password: req.body.password,
-            // photos: newPhotoArr,
             }
     });
     res.redirect(`/user`);

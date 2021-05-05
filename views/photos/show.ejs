@@ -11,7 +11,13 @@
         <div class="featured-user-photo">
             <img src="<%= selected.url %>" alt="<%= selected.about %>">
             <p class="about-photo"><%= selected.about %></p>
-            <a href="/user/<%= selected.user._id %>">View <%= selected.user.username %>'s Profile</a>
+            <div class="photo-actions">
+                <a href="/user/<%= selected.user._id %>">View <%= selected.user.username %>'s Profile</a>
+                <a href="photos/edit">Edit Photo</a>
+                <form action="/photos/<%= selected._id %>?_method=DELETE" method="POST">
+                    <input class="action-button" type="submit" value="Delete">
+                </form>
+            </div>
         </div>
     </main>
 </body>
