@@ -35,5 +35,13 @@ router.post('/',async (req,res)=>{
         res.redirect(`/user/${userId}`);
     };
 });
+// Show
+router.get('/:id',async (req,res)=>{
+    const selected= await Photo.findById(req.params.id)
+        .populate('user');
+    res.render('photos/show',{
+        selected: selected,
+    });
+});
 
 module.exports=router;
