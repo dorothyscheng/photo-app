@@ -11,6 +11,10 @@ app.use('/user',userControllers);
 // Photos
 const photoControllers=require('./controllers/photo_controllers.js');
 app.use('/photos',photoControllers)
+// Home
+app.get('/',(req,res)=>{
+    res.render('home');
+});
 // LISTENER
 const PORT=3000;
 app.listen(PORT,()=>console.log(`Listening on http://localhost:${PORT}`));
