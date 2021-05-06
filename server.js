@@ -21,20 +21,17 @@ const bcrypt=require('bcrypt');
 const saltRounds=10;
 // middleware to check if user is stored in session every time they make a request
 app.use((req,res,next)=>{
-    // console.log('app middleware started');
     if (req.userLogin && req.userLogin.user) {
         db.User.findOne({username: req.userLogin.user},(err,foundUser)=>{
             if (foundUser) {
                 req.user=foundUser.username;
                 req.userLogin.user=foundUser.username;
             };
-            // console.log(req.user);
             next();
         });
     } else {
         next();
     };
-    // console.log('app middleware done');
 });
 
 // ROUTERS

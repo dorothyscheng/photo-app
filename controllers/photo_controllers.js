@@ -7,7 +7,6 @@ router.use(express.urlencoded({extended:false}));
 
 function requireLogin(req,res,next) {
     if (!req.user) {
-        console.log('there is no req.user');
         res.redirect('/login');
     } else {
         next();
@@ -32,23 +31,28 @@ router.get('/new', requireLogin, async (req,res)=>{
 // Post
 router.post('/:userId',async (req,res)=>{
     const user= await db.User.findById({_id: req.params.userId});
-        const photoUrl=req.body.url;
-        const photoAbout=req.body.about;
-        const newPhoto=await db.Photo.create({
-            url: photoUrl,
-            about: photoAbout,
-            user: user._id,
-        });
-        user.photos.push(newPhoto);
-        await user.save();
-        res.redirect(`/user/${user._id}`);
+    const photoUrl=req.body.url;
+    const photoAbout=req.body.about;
+    const newPhoto=await db.Photo.create({
+        url: photoUrl,
+        about: photoAbout,
+        user: user._id,
+    });
+    user.photos.push(newPhoto);
+    await user.save();
+    res.redirect(`/user/${user._id}`);
 });
 // Edit
-router.get('/:id/edit', requireLogin,async (req,res)=>{
-    const selected= await db.Photo.findById({_id:req.params.id});
-    res.render('photos/edit',{
-        selected: selected,
-    });
+router.get('/:id/edit', requireLogin, async (req,res)=>{
+    const selected= await db.Photo.findById({_id:req.params.id})
+        .populate('user');
+    if (req.user === selected.user.username) {
+        res.render('photos/edit',{
+            selected: selected,
+        });
+    } else {
+        res.send('This is not your photo');
+    };
 });
 // Update
 router.put('/:id',async (req,res)=>{
@@ -61,13 +65,19 @@ router.put('/:id',async (req,res)=>{
     res.redirect(`/photos/${req.params.id}`);
 });
 // Destroy
-router.delete('/:id',async (req,res)=>{
-    await db.Photo.findByIdAndDelete({_id: req.params.id});
-    const user= await db.User.findOne({'photos':req.params.id});
-    await user.photos.remove(req.params.id);
-    await user.save();
-    res.redirect('/photos');
-})
+router.delete('/:id', requireLogin,async (req,res)=>{
+    const photo = await db.Photo.findById({_id: req.params.id})
+        .populate('user');
+    if (req.user===photo.user.username) {
+        await photo.delete();
+        const user= await db.User.findOne({'photos':req.params.id});
+        await user.photos.remove(req.params.id);
+        await user.save();
+        res.redirect('/photos');
+    } else {
+        res.send('that is not your photo');
+    };
+});
 // Show
 router.get('/:id',async (req,res)=>{
     const selected= await db.Photo.findById(req.params.id)
