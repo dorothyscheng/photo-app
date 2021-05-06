@@ -35,16 +35,21 @@ router.get('/new',(req,res)=>{
     res.render('users/new');
 });
 // Post
-router.post('/', async (req,res)=>{
-    const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
-    await db.User.create({
-        username:req.body.username,
-        password: hashedPw,
-    });
-    res.redirect('/user');
+router.post('/', async (req,res,next)=>{
+    try {
+        const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
+        await db.User.create({
+            username:req.body.username,
+            password: hashedPw,
+        });
+        res.redirect('/user');
+    } catch(error) {
+        const err='validation';
+        next(err);
+    };
 });
 // Destroy
-router.delete('/:id', requireLogin, async (req,res)=>{
+router.delete('/:id', requireLogin, async (req,res,next)=>{
     const user= await db.User.findById({_id: req.params.id});
     if (req.user===user.username) {
         await user.delete();
@@ -52,18 +57,20 @@ router.delete('/:id', requireLogin, async (req,res)=>{
         req.userLogin.reset();
         res.redirect('/user');
     } else {
-        res.send('you are not this user');
+        const err='permission';
+        next(err);
     };
 });
 // Edit
-router.get('/:id/edit', requireLogin, async (req,res)=>{
+router.get('/:id/edit', requireLogin, async (req,res,next)=>{
     const user= await db.User.findById({_id: req.params.id});
     if (req.user===user.username) {
         res.render('users/edit',{
             selected: user,
         });
     } else {
-        res.send ('you are not this user!');
+        const err='permission';
+        next(err);
     };
 });
 // Update
@@ -77,7 +84,8 @@ router.put('/:id', async (req,res)=>{
         user.save();
         res.redirect(`/user/${user._id}`);
     } else {
-        res.send('your pw does not match');
+        const err='permission';
+        next(err);
     }
 });
 // Show

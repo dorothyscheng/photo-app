@@ -79,6 +79,22 @@ app.get('/profile',async (req,res)=>{
 app.get('/',(req,res)=>{
     res.render('home');
 });
+
+// ERROR HANDLING
+app.use((err,req,res,next)=>{
+    let message;
+    if (err==='permission') {
+        res.status(401);
+        message= 'You don\'t have permission for this action.';
+    } else if (err==='validation') {
+        res.status(400);
+        message='Something went wrong. Make sure you filled in all required fields.';
+    };
+    res.render('error',{
+        message: message,
+    });
+});
+
 // LISTENER
 const PORT=3000;
 app.listen(PORT,()=>console.log(`Listening on http://localhost:${PORT}`));

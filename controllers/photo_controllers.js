@@ -29,21 +29,26 @@ router.get('/new', requireLogin, async (req,res)=>{
     });
 });
 // Post
-router.post('/:userId',async (req,res)=>{
-    const user= await db.User.findById({_id: req.params.userId});
-    const photoUrl=req.body.url;
-    const photoAbout=req.body.about;
-    const newPhoto=await db.Photo.create({
-        url: photoUrl,
-        about: photoAbout,
-        user: user._id,
-    });
-    user.photos.push(newPhoto);
-    await user.save();
-    res.redirect(`/user/${user._id}`);
+router.post('/:userId',async (req,res,next)=>{
+    try {
+        const user= await db.User.findById({_id: req.params.userId});
+        const photoUrl=req.body.url;
+        const photoAbout=req.body.about;
+        const newPhoto=await db.Photo.create({
+            url: photoUrl,
+            about: photoAbout,
+            user: user._id,
+        });
+        user.photos.push(newPhoto);
+        await user.save();
+        res.redirect(`/user/${user._id}`);
+    } catch(error) {
+        const err='validation';
+        next(err);
+    }
 });
 // Edit
-router.get('/:id/edit', requireLogin, async (req,res)=>{
+router.get('/:id/edit', requireLogin, async (req,res,next)=>{
     const selected= await db.Photo.findById({_id:req.params.id})
         .populate('user');
     if (req.user === selected.user.username) {
@@ -51,7 +56,8 @@ router.get('/:id/edit', requireLogin, async (req,res)=>{
             selected: selected,
         });
     } else {
-        res.send('This is not your photo');
+        const err='permission';
+        next(err);
     };
 });
 // Update
@@ -65,7 +71,7 @@ router.put('/:id',async (req,res)=>{
     res.redirect(`/photos/${req.params.id}`);
 });
 // Destroy
-router.delete('/:id', requireLogin,async (req,res)=>{
+router.delete('/:id', requireLogin,async (req,res,next)=>{
     const photo = await db.Photo.findById({_id: req.params.id})
         .populate('user');
     if (req.user===photo.user.username) {
@@ -75,7 +81,8 @@ router.delete('/:id', requireLogin,async (req,res)=>{
         await user.save();
         res.redirect('/photos');
     } else {
-        res.send('that is not your photo');
+        const err='permission';
+        next(err)
     };
 });
 // Show
