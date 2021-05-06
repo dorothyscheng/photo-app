@@ -19,6 +19,23 @@ app.use(session({
 }))
 const bcrypt=require('bcrypt');
 const saltRounds=10;
+// middleware to check if user is stored in session every time they make a request
+app.use((req,res,next)=>{
+    // console.log('app middleware started');
+    if (req.userLogin && req.userLogin.user) {
+        db.User.findOne({username: req.userLogin.user},(err,foundUser)=>{
+            if (foundUser) {
+                req.user=foundUser.username;
+                req.userLogin.user=foundUser.username;
+            };
+            // console.log(req.user);
+            next();
+        });
+    } else {
+        next();
+    };
+    // console.log('app middleware done');
+});
 
 // ROUTERS
 // User
@@ -51,6 +68,15 @@ app.post('/login',async (req,res)=>{
 app.get('/logout',(req,res)=>{
     req.userLogin.reset();
     res.redirect('/');
+});
+// Profile
+app.get('/profile',async (req,res)=>{
+    if (req.userLogin && req.userLogin.user) {
+        user= await db.User.findOne({username: req.userLogin.user});
+        res.redirect(`/user/${user._id}`);
+    } else {
+        res.redirect('/login');
+    };
 });
 // Home
 app.get('/',(req,res)=>{
