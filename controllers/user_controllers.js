@@ -68,14 +68,17 @@ router.get('/:id/edit', requireLogin, async (req,res)=>{
 });
 // Update
 router.put('/:id', async (req,res)=>{
-    const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
-    await db.User.findByIdAndUpdate({_id: req.params.id},
-        {$set: {
-            username: req.body.username,
-            password: hashedPw,
-            }
-    });
-    res.redirect(`/user`);
+    const user = await db.User.findById({_id: req.params.id});
+    const match = await bcrypt.compare(req.body.currentPw,user.password);
+    if (match) {
+        newHashedPw= await bcrypt.hash(req.body.newPw,saltRounds);
+        user.username=req.body.username;
+        user.password=newHashedPw;
+        user.save();
+        res.redirect(`/user/${user._id}`);
+    } else {
+        res.send('your pw does not match');
+    }
 });
 // Show
 router.get('/:id', async (req,res)=>{
