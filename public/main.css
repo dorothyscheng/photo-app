@@ -166,3 +166,7 @@ button {
     color: red;
     cursor: pointer;
 }
+.add-photo-link {
+    display: block;
+    text-align: center;
+}

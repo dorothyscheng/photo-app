@@ -5,6 +5,15 @@ const methodOverride=require('method-override');
 const db=require('../models');
 router.use(express.urlencoded({extended: false}));
 router.use(methodOverride('_method'));
+
+function requireLogin(req,res,next) {
+    if (!req.user) {
+        res.redirect('/login');
+    } else {
+        next();
+    };
+};
+
 // LOGIN
 const bcrypt=require('bcrypt');
 const saltRounds=10;
@@ -35,10 +44,16 @@ router.post('/', async (req,res)=>{
     res.redirect('/user');
 });
 // Destroy
-router.delete('/:id', async (req,res)=>{
-    await db.User.findByIdAndDelete({_id:req.params.id});
-    await db.Photo.deleteMany({user: req.params.id});
-    res.redirect('/user');
+router.delete('/:id', requireLogin, async (req,res)=>{
+    const user= await db.User.findById({_id: req.params.id});
+    if (req.user===user.username) {
+        await user.delete();
+        await db.Photo.deleteMany({user: req.params.id});
+        req.userLogin.reset();
+        res.redirect('/user');
+    } else {
+        res.send('you are not this user');
+    };
 });
 // Edit
 router.get('/:id/edit',(req,res)=>{

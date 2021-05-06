@@ -8,7 +8,7 @@
     <main>
         <%- include('../partials/nav') %>
         <h1 class="title"><%= selected.username %></h1>
-        <a href="/photos/new">Add a Photo</a>
+        <a class="add-photo-link" href="/photos/new">Add a Photo</a>
         <div class="all-user-photos">
             <% selected.photos.forEach((element,index)=> { %>
                 <a href="/photos/<%= element._id %>"><img class="user-photo-thumb" src="<%= element.url %>" alt="element.about"></a>
