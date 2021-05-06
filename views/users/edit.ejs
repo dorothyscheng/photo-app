@@ -10,7 +10,8 @@
         <h1 class="title">Edit Your Profile</h1>
         <form class="form" action="/user/<%= selected._id %>?_method=PUT" method=POST>
             Username: <input class="form-input" type="text" name="username" value="<%= selected.username %>">
-            Password: <input class="form-input" type="text" name="password" value="<%= selected.password %>">
+            Current Password: <input class="form-input" type="text" name="currentPw">
+            New Password: <input class="form-input" type="text" name="newPw">
             <input class="submit-button" type="submit" value="Submit Changes">
         </form>
     </main>

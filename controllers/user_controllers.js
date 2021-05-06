@@ -56,16 +56,15 @@ router.delete('/:id', requireLogin, async (req,res)=>{
     };
 });
 // Edit
-router.get('/:id/edit',(req,res)=>{
-    db.User.findById({_id: req.params.id},(err,selected)=>{
-        if (err) {
-            res.send(err);
-        } else {
-            res.render('users/edit',{
-                selected:selected,
-            });
-        };
-    });
+router.get('/:id/edit', requireLogin, async (req,res)=>{
+    const user= await db.User.findById({_id: req.params.id});
+    if (req.user===user.username) {
+        res.render('users/edit',{
+            selected: user,
+        });
+    } else {
+        res.send ('you are not this user!');
+    };
 });
 // Update
 router.put('/:id', async (req,res)=>{
