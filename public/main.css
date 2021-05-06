@@ -27,16 +27,20 @@ button {
 .home-title {
     color: #fff;
     margin-bottom: 24px;
+    font-size: 35px;
 }
 .home-actions {
-    width: 600px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     font-weight: bold;
+    height: 181px;
 }
 .home-action-button {
     color: #fff;
     font-size: 20px;
+    text-align: center;
+    font-size: 30px;
 }
 .home-action-button:focus {
     color: red;
