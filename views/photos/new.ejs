@@ -7,9 +7,8 @@
 <body class="user-index-body">
     <main>
         <%- include('../partials/nav') %>
-        <h1 class="title">Add Photo</h1>
-        <form class="form" action="/photos" method="POST">
-            Username: <input class="form-input" type="text" name="username">
+        <h1 class="title"><%= user.username %>: Add Photo</h1>
+        <form class="form" action="/photos/<%= user._id %>" method="POST">
             Photo URL: <input class="form-input" type="text" name="url">
             About: <input class="form-input" type="text" name="about">
             <input class="submit-button" type="submit" value="Submit">

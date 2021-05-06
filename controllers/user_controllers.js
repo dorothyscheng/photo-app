@@ -1,8 +1,8 @@
 const express=require('express');
 const router=express.Router();
 const methodOverride=require('method-override');
-const Photo = require('../models/Photo');
-const User=require('../models/User');
+// Instead of requiring every model here, just required db, then use db. to access the models
+const db=require('../models');
 router.use(express.urlencoded({extended: false}));
 router.use(methodOverride('_method'));
 // LOGIN
@@ -11,7 +11,7 @@ const saltRounds=10;
 // ROUTES
 // Index
 router.get('/', (req,res)=>{
-    User.find({},(err,allUsers)=>{
+    db.User.find({},(err,allUsers)=>{
         if (err) {
             res.send(err);
         } else {
@@ -28,7 +28,7 @@ router.get('/new',(req,res)=>{
 // Post
 router.post('/', async (req,res)=>{
     const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
-    await User.create({
+    await db.User.create({
         username:req.body.username,
         password: hashedPw,
     });
@@ -36,13 +36,13 @@ router.post('/', async (req,res)=>{
 });
 // Destroy
 router.delete('/:id', async (req,res)=>{
-    await User.findByIdAndDelete({_id:req.params.id});
-    await Photo.deleteMany({user: req.params.id});
+    await db.User.findByIdAndDelete({_id:req.params.id});
+    await db.Photo.deleteMany({user: req.params.id});
     res.redirect('/user');
 });
 // Edit
 router.get('/:id/edit',(req,res)=>{
-    User.findById({_id: req.params.id},(err,selected)=>{
+    db.User.findById({_id: req.params.id},(err,selected)=>{
         if (err) {
             res.send(err);
         } else {
@@ -54,18 +54,18 @@ router.get('/:id/edit',(req,res)=>{
 });
 // Update
 router.put('/:id', async (req,res)=>{
-    const selected = await User.findById({_id: req.params.id});
-    await User.findByIdAndUpdate({_id: req.params.id},
+    const hashedPw=await bcrypt.hash(req.body.password,saltRounds);
+    await db.User.findByIdAndUpdate({_id: req.params.id},
         {$set: {
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPw,
             }
     });
     res.redirect(`/user`);
 });
 // Show
 router.get('/:id', async (req,res)=>{
-    const user= await User.findById({_id:req.params.id})
+    const user= await db.User.findById({_id:req.params.id})
         .populate('photos');
     res.render('users/show',{
         selected: user,

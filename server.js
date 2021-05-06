@@ -1,19 +1,18 @@
 const express=require('express');
 const app=express();
 
-// I thought that below would also bring in User and Photo models??
-const db=require('./models/index');
-
+const db=require('./models');
 app.set('view engine','ejs');
-const path=require('path');
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({extended:false}));
 
-// All the stuff I added for password
-const User=require('./models/User');
+// References for password & session:
+// https://stormpath.com/blog/everything-you-ever-wanted-to-know-about-node-dot-js-sessions
+// https://www.npmjs.com/package/bcrypt
+// Read this to learn how to persist sessions during dev: https://www.npmjs.com/package/connect-mongo
 const session=require('client-sessions');
 app.use(session({
-    cookieName: 'session',
+    cookieName: 'userLogin',
     secret: 'aarghelsehaielsienlwekj',
     duration: 30*60*1000,
     activeDuration: 5*60*1000,
@@ -28,22 +27,30 @@ app.use('/user',userControllers);
 // Photos
 const photoControllers=require('./controllers/photo_controllers.js');
 app.use('/photos',photoControllers)
+// ROOT ROUTES
 // Login
 app.get('/login',(req,res)=>{
     res.render('login');
 });
 app.post('/login',async (req,res)=>{
-    const user= await User.findOne({username: req.body.username});
+    const user= await db.User.findOne({username: req.body.username});
     if (!user) {
         res.send('username doesn\'t exist');
     } else {
         const match= await bcrypt.compare(req.body.password,user.password);
         if (match) {
-            res.send('you\'re logged in!');
+            req.userLogin.user=user.username;
+            res.redirect(`/user/${user._id}`);
         } else {
-            res.send('not a pw match');
+            req.userLogin.reset();
+            res.redirect('/login');
         };
     };
+});
+// Logout
+app.get('/logout',(req,res)=>{
+    req.userLogin.reset();
+    res.redirect('/');
 });
 // Home
 app.get('/',(req,res)=>{
