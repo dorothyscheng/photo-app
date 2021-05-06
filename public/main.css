@@ -166,10 +166,6 @@ button {
     color: red;
     cursor: pointer;
 }
-.add-photo-link {
-    display: block;
-    text-align: center;
-}
 .nav-div {
     display: flex;
     justify-content: space-evenly;
