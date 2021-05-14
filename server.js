@@ -1,7 +1,10 @@
 const express=require('express');
 const app=express();
-
+const PORT = process.env.PORT || 4000;
 const db=require('./models');
+const userControllers=require('./controllers/user_controllers.js');
+const photoControllers=require('./controllers/photo_controllers.js');
+
 app.set('view engine','ejs');
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({extended:false}));
@@ -18,8 +21,6 @@ app.use(session({
     activeDuration: 5*60*1000,
 }))
 const bcrypt=require('bcrypt');
-const saltRounds=10;
-// middleware to check if user is stored in session every time they make a request
 app.use((req,res,next)=>{
     if (req.userLogin && req.userLogin.user) {
         db.User.findOne({username: req.userLogin.user},(err,foundUser)=>{
@@ -35,12 +36,9 @@ app.use((req,res,next)=>{
 });
 
 // ROUTERS
-// User
-const userControllers=require('./controllers/user_controllers.js');
 app.use('/user',userControllers);
-// Photos
-const photoControllers=require('./controllers/photo_controllers.js');
 app.use('/photos',photoControllers)
+
 // ROOT ROUTES
 // Login
 app.get('/login',(req,res)=>{
@@ -96,5 +94,4 @@ app.use((err,req,res,next)=>{
 });
 
 // LISTENER
-const PORT=3000;
 app.listen(PORT,()=>console.log(`Listening on http://localhost:${PORT}`));
