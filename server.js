@@ -1,5 +1,6 @@
 const express=require('express');
 const app=express();
+require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 const db=require('./models');
 const userControllers=require('./controllers/user_controllers.js');
@@ -16,7 +17,7 @@ app.use(express.urlencoded({extended:false}));
 const session=require('client-sessions');
 app.use(session({
     cookieName: 'userLogin',
-    secret: 'aarghelsehaielsienlwekj',
+    secret: process.env.SESSION_SECRET,
     duration: 30*60*1000,
     activeDuration: 5*60*1000,
 }))
